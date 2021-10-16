@@ -31,6 +31,10 @@ class GraphBag {
 
 	// returns a ( Nvertices x 2 ) vector with the edges
 	std::vector<std::vector<int> > getEdges() const;
+
+	// returns a graph with reverse edges
+	// if directed = false, it returns the same graph
+	GraphBag reverse() const;
 	
 
   private:
@@ -72,4 +76,28 @@ std::vector<std::vector<int> > GraphBag::getEdges() const
 	}
 	return edges;
 }
+
+
+
+GraphBag GraphBag::reverse() const
+{
+	GraphBag rgraph( vertices.size(), directed );
+
+	for( std::vector<Bag<int> >::size_type vi = 0; 
+			vi < vertices.size(); ++vi ) {
+		for( Bag<int>::EdgeIter iter = vertices[vi].getEdgeIter();
+					iter.isvalid(); ++iter ) {
+			if( directed ) {
+				rgraph.add(vi, *iter);
+			} else if( vi < *iter) {
+				// only add each edge once to avoid double edges
+				rgraph.add(vi, *iter);	
+			}
+		}
+	}
+	
+
+	return rgraph;
+}
+
 #endif
