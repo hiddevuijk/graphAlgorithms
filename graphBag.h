@@ -88,7 +88,7 @@ GraphBag GraphBag::reverse() const
 		for( Bag<int>::EdgeIter iter = vertices[vi].getEdgeIter();
 					iter.isvalid(); ++iter ) {
 			if( directed ) {
-				rgraph.add(vi, *iter);
+				rgraph.add(*iter, vi);
 			} else if( vi < *iter) {
 				// only add each edge once to avoid double edges
 				rgraph.add(vi, *iter);	
