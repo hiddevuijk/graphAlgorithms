@@ -6,7 +6,7 @@
 	Guard against double edges, self loop?? 
 */
 
-#include "linkedlist/bag.h"
+#include "bag.h"
 
 #include <vector>
 
