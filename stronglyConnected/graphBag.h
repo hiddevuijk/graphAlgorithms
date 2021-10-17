@@ -27,10 +27,13 @@ class GraphBag {
 	// use prefix ++ to move foreward
 	// as long as .isvalid() = true
 	typedef Bag<int>::Iter EdgeIter;
-	EdgeIter getEdgeIter(int i)const {return vertices[i].start(); }
+	EdgeIter getEdgeIter(int i) const {return vertices[i].start(); }
 
 	// returns a ( Nvertices x 2 ) vector with the edges
 	std::vector<std::vector<int> > getEdges() const;
+
+	// reverse
+	GraphBag reverse() const;
 	
 
   private:
@@ -43,7 +46,7 @@ class GraphBag {
 void GraphBag::add(int i, int j)
 {
 	vertices[i].add(j);
-	if( !directed) vertices[j].add(i);
+	if( !directed ) vertices[j].add(i);
 }
 
 void GraphBag::remove(int i, int j)
@@ -71,5 +74,28 @@ std::vector<std::vector<int> > GraphBag::getEdges() const
 		}
 	}
 	return edges;
+}
+
+
+GraphBag GraphBag::reverse() const
+{
+	GraphBag rgraph(vertices.size(), directed);
+
+	for(std::vector<Bag<int> >::size_type vi = 0;
+			vi < vertices.size(); ++vi) {
+
+		for( Bag<int>::Iter iter = vertices[vi].start();
+				iter.isvalid(); ++iter) {
+
+			if( directed ) {
+				rgraph.add(*iter,vi);
+			} else if( (int) vi < *iter) {
+				rgraph.add(vi, *iter);
+			}
+		}
+
+	}
+
+	return rgraph;
 }
 #endif
